@@ -116,7 +116,7 @@ def images_to_pdf(update: Update, context: CallbackContext):
         try:
             img = Image.open(img_data).convert('RGB')
             context.user_data['pdf_images'].append(img)
-            update.message.reply_text(f"✅ Image added ({len(context.user_data['pdf_images']}). Send more or /done")
+            update.message.reply_text(f✅"Image added ({len(context.user_data['pdf_images'])}). Send more or /done")
         except Exception as e:
             update.message.reply_text(f"❌ Error: {str(e)}")
     elif update.message.text and update.message.text.lower() == '/done':
