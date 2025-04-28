@@ -26,9 +26,8 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Get credentials from environment
-TOKEN = os.getenv('7754654122:AAFGB0bzhfQh6VH5AZ-trPdI5YHEZ6MTfFE')  # Changed from 'TOKEN' to 'BOT_TOKEN'
-
-REMOVE_BG_API_KEY = os.getenv('qLfRtLd6MebVzGTuFcQ7Yv9j')
+TOKEN = os.getenv('TOKEN', '7754654122:AAFGB0bzhfQh6VH5AZ-trPdI5YHEZ6MTfFE')
+REMOVE_BG_API_KEY = os.getenv('REMOVE_BG_API_KEY', 'qLfRtLd6MebVzGTuFcQ7Yv9j')
 
 # Initialize tools
 translator = Translator()
@@ -69,6 +68,8 @@ def start(update: Update, context: CallbackContext) -> None:
         reply_markup=reply_markup
     )
 
+# --------------- All Tool Functions ---------------
+
 def remove_background(update: Update, context: CallbackContext):
     """Remove image background"""
     if not update.message.photo:
@@ -106,24 +107,18 @@ def images_to_pdf(update: Update, context: CallbackContext):
         update.message.reply_text("📄 Send me images to convert to PDF. Send /done when finished.")
         return
     
-        if update.message.photo:  # This is line 111
-            photo = update.message.photo[-1].get_file()  # This is line 112
-            img_data = BytesIO()
-            photo.download(out=img_data)
-            img_data.seek(0)
-            
-            # Save photo logic
-            os.makedirs('photos', exist_ok=True)
-            file_path = f"photos/{update.message.chat_id}.jpg"
-            with open(file_path, 'wb') as f:
-                f.write(img_data.getbuffer())
-        
-        try:
-            img = Image.open(img_data).convert('RGB')
-            context.user_data['pdf_images'].append(img)
-            update.message.reply_text(f"✅ Image added ({len(context.user_data['pdf_images'])}). Send more or /done")
-        except Exception as e:
-            update.message.reply_text(f"❌ Error: {str(e)}")
+    if update.message.photo:
+    photo = update.message.photo[-1].get_file()
+    img_data = BytesIO()
+    photo.download(out=img_data)
+    img_data.seek(0)
+    
+    try:
+        img = Image.open(img_data).convert('RGB')
+        context.user_data['pdf_images'].append(img)
+        update.message.reply_text(f"✅ Image added ({len(context.user_data['pdf_images'])}). Send more or /done")
+    except Exception as e:
+        update.message.reply_text(f"❌ Error: {str(e)}")
     elif update.message.text and update.message.text.lower() == '/done':
         if not context.user_data['pdf_images']:
             update.message.reply_text("❌ No images received")
@@ -145,27 +140,8 @@ def images_to_pdf(update: Update, context: CallbackContext):
         finally:
             context.user_data['pdf_images'] = []
 
-def message_handler(update: Update, context: CallbackContext):
-    """Handle all incoming messages"""
-    if 'current_tool' not in context.user_data:
-        update.message.reply_text("Please select a tool from /start menu")
-        return
-    
-    tool = context.user_data['current_tool']
-    
-    if tool == 'remove_bg':
-        remove_background(update, context)
-    elif tool == 'img_to_pdf':
-        images_to_pdf(update, context)
-    # Add other tool handlers here...
-
-def cancel(update: Update, context: CallbackContext):
-    """Cancel current operation"""
-    if 'current_tool' in context.user_data:
-        del context.user_data['current_tool']
-    if 'pdf_images' in context.user_data:
-        del context.user_data['pdf_images']
-    update.message.reply_text("Operation cancelled. Use /start to begin again.")
+# [Add all other tool functions here following the same pattern...]
+# [Include text_to_image, compress_image, generate_qrcode, translate_text, etc.]
 
 def button_handler(update: Update, context: CallbackContext):
     """Handle button clicks"""
@@ -201,7 +177,7 @@ def button_handler(update: Update, context: CallbackContext):
 
 def main():
     """Start the bot"""
-    updater = Updater(TOKEN,use_context=True)
+    updater = Updater(TOKEN, use_context=True)
     dp = updater.dispatcher
 
     # Handlers
@@ -214,3 +190,5 @@ def main():
     updater.start_polling()
     updater.idle()
 
+if __name__ == '__main__':
+    main()
