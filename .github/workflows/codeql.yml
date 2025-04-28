@@ -1,13 +1,27 @@
-name: "CodeQL"
-on: [push]
+name: CodeQL
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   analyze:
+    permissions:
+      contents: read
+      security-events: write
+      
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
+
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
+      uses: github/codeql-action/init@v2
       with:
-        languages: python
+        languages: 'javascript'
+
     - name: Analyze
-      uses: github/codeql-action/analyze@v1
+      uses: github/codeql-action/analyze@v2
