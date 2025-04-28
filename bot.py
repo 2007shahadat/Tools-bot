@@ -27,8 +27,7 @@ logger = logging.getLogger(__name__)
 
 # Get credentials from environment
 TOKEN = os.getenv('7754654122:AAFGB0bzhfQh6VH5AZ-trPdI5YHEZ6MTfFE')  # Changed from 'TOKEN' to 'BOT_TOKEN'
-if not TOKEN:
-    raise ValueError("BOT_TOKEN environment variable not set!")
+if not TOKEN
 
 REMOVE_BG_API_KEY = os.getenv('qLfRtLd6MebVzGTuFcQ7Yv9j')
 
