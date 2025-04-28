@@ -109,10 +109,10 @@ def images_to_pdf(update: Update, context: CallbackContext):
         return
     
     if update.message.photo:
-        photo = update.message.photo[-1].get_file()
-        img_data = BytesIO()
-        photo.download(out=img_data)
-        img_data.seek(0)
+    photo = update.message.photo[-1].get_file()
+    img_data = BytesIO()
+    photo.download(out=img_data)
+    img_data.seek(0)
         
         try:
             img = Image.open(img_data).convert('RGB')
