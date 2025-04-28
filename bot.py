@@ -26,7 +26,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Get credentials from environment
-TOKEN = os.getenv('TOKEN', '7754654122:AAFGTvgsF-NjzYKgVVfmZvZjR_FHGvcrlDQ')
+TOKEN = os.getenv('TOKEN', '7754654122:AAFGB0bzhfQh6VH5AZ-trPdI5YHEZ6MTfFE')
 REMOVE_BG_API_KEY = os.getenv('REMOVE_BG_API_KEY', 'qLfRtLd6MebVzGTuFcQ7Yv9j')
 
 # Initialize tools
