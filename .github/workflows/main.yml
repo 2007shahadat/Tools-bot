@@ -22,7 +22,7 @@ jobs:
           pip install python-dotenv
       - name: Run bot
         env:
-          TOKEN: ${{ secrets.BOT_TOKEN }}
-          REMOVE_BG_API_KEY: ${{ secrets.REMOVE_BG_API_KEY }}
+  TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  REMOVE_BG_API_KEY: ${{ secrets.REMOVE_BG_API_KEY }}
         run: |
           python bot.py
