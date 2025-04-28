@@ -1,4 +1,4 @@
-name: Run Telegram Bot
+name: RUN Telegram Bot
 
 on:
   push:
@@ -9,25 +9,20 @@ on:
 jobs:
   run-bot:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    
-    steps:
-  - name: Install dependencies
-    run: |
-      python -m pip install --upgrade pip
-      pip install -r requirements.txt
-      pip install python-dotenv
-    
-    - name: Run bot
-      env:
-        TOKEN: ${{ secrets.BOT_TOKEN }}
-        REMOVE_BG_API_KEY: ${{ secrets.REMOVE_BG_API_KEY }}
-      run: |
-        python bot.py
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install python-dotenv
+      - name: Run bot
+        env:
+          TOKEN: ${{ secrets.BOT_TOKEN }}
+          REMOVE_BG_API_KEY: ${{ secrets.REMOVE_BG_API_KEY }}
+        run: |
+          python bot.py
