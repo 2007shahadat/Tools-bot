@@ -108,7 +108,7 @@ def images_to_pdf(update: Update, context: CallbackContext):
         return
     
     if update.message.photo:  # line 110
-    photo = update.message.photo[-1].get_file()  # line 111
+    photo = update.message.photo[-1].get_file()  # line 111 (4 spaces indentation)
     img_data = BytesIO()
     photo.download(out=img_data)
     img_data.seek(0)
