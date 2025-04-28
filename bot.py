@@ -108,11 +108,17 @@ def images_to_pdf(update: Update, context: CallbackContext):
         update.message.reply_text("📄 Send me images to convert to PDF. Send /done when finished.")
         return
     
-    if update.message.photo:  # line 111
-    photo = update.message.photo[-1].get_file()  # line 112 (4 স্পেস ইন্ডেন্টেশন)
-    img_data = BytesIO()
-    photo.download(out=img_data)
-    img_data.seek(0)
+        if update.message.photo:  # This is line 111
+            photo = update.message.photo[-1].get_file()  # This is line 112
+            img_data = BytesIO()
+            photo.download(out=img_data)
+            img_data.seek(0)
+            
+            # Save photo logic
+            os.makedirs('photos', exist_ok=True)
+            file_path = f"photos/{update.message.chat_id}.jpg"
+            with open(file_path, 'wb') as f:
+                f.write(img_data.getbuffer())
         
         try:
             img = Image.open(img_data).convert('RGB')
