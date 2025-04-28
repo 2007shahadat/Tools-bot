@@ -108,17 +108,17 @@ def images_to_pdf(update: Update, context: CallbackContext):
         return
     
     if update.message.photo:
-        photo = update.message.photo[-1].get_file()
-        img_data = BytesIO()
-        photo.download(out=img_data)
-        img_data.seek(0)
-        
-        try:
-            img = Image.open(img_data).convert('RGB')
-            context.user_data['pdf_images'].append(img)
-            update.message.reply_text(f✅"Image added ({len(context.user_data['pdf_images'])}). Send more or /done")
-        except Exception as e:
-            update.message.reply_text(f"❌ Error: {str(e)}")
+    photo = update.message.photo[-1].get_file()
+    img_data = BytesIO()
+    photo.download(out=img_data)
+    img_data.seek(0)
+    
+    try:
+        img = Image.open(img_data).convert('RGB')
+        context.user_data['pdf_images'].append(img)
+        update.message.reply_text(f"✅ Image added ({len(context.user_data['pdf_images'])}). Send more or /done")
+    except Exception as e:
+        update.message.reply_text(f"❌ Error: {str(e)}")
     elif update.message.text and update.message.text.lower() == '/done':
         if not context.user_data['pdf_images']:
             update.message.reply_text("❌ No images received")
